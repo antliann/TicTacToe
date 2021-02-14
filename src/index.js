@@ -40,6 +40,12 @@ class LeftBoard extends React.Component {
     render() {
         return (
             <div className="left">
+                <h2 className='l1'>Play as:</h2>
+                <button className='x-b selected'>X Moves first</button>
+                <button className='x-b'>O Moves second</button>
+                <h2 className='l2'>Game mode</h2>
+                <button className='mode'>Easy</button>
+                <button className='mode m2 selected'>Hard</button>
                 <button className='new-game' onClick={this.props.newGame}>
                     <svg className='refresh' width="26" height="26" viewBox="0 0 26 26" fill="none"
                          xmlns="http://www.w3.org/2000/svg">
@@ -120,7 +126,7 @@ class Game extends React.Component {
         let status;
         status = winner ?
             'The winner is ' + winner :
-            this.state.stepNumber < 10 ?
+            this.state.stepNumber < 9 ?
                 'Current player: ' + (this.state.xIsNext ? 'X' : 'O') :
                 'Draw';
 
