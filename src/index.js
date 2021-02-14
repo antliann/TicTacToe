@@ -3,13 +3,26 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 function Square(props) {
+    let sign = null;
+    if (props.value === 'X') sign =
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect y="4.94975" width="7" height="72" rx="3.5" transform="rotate(-45 0 4.94975)" fill="#CF0000"/>
+            <rect x="50.9117" width="7" height="72" rx="3.5" transform="rotate(45 50.9117 0)" fill="#CF0000"/>
+        </svg>
+    if (props.value === 'O') sign =
+        <svg width="58" height="58" viewBox="0 0 58 58" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M29 58C45.0163 58 58 45.0163 58 29C58 12.9837 45.0163 0 29 0C12.9837 0 0 12.9837 0 29C0 45.0163 12.9837 58 29 58ZM29 51C41.1503 51 51 41.1503 51 29C51 16.8497 41.1503 7 29 7C16.8497 7 7 16.8497 7 29C7 41.1503 16.8497 51 29 51Z"
+                  fill="#00B533"/>
+        </svg>
+
     return (
         <button
             className="square"
             onClick={props.onClick}
             key={props.keyName}
         >
-            {props.value}
+            {sign}
         </button>
     );
 }
@@ -41,8 +54,27 @@ class LeftBoard extends React.Component {
         return (
             <div className="left">
                 <h2 className='l1'>Play as:</h2>
-                <button className='x-b selected'>X Moves first</button>
-                <button className='x-b'>O Moves second</button>
+                <button className='x-b selected' onClick={this.props.newGame}>
+                    <svg className='little-signs' width="28" height="28" viewBox="0 0 28 28"
+                         fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect y="2.47481" width="3.49991" height="35.9991" rx="1.74996"
+                              transform="rotate(-45 0 2.47481)" fill="#CF0000"/>
+                        <rect x="25.4552" width="3.49991" height="35.9991" rx="1.74996" transform="rotate(45 25.4552 0)"
+                              fill="#CF0000"/>
+                    </svg>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Moves first
+                </button>
+                <button className='x-b'>
+                    <svg className='little-signs' width="29" height="29" viewBox="0 0 29 29"
+                         fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                              d="M14.5 29C22.5081 29 29 22.5081 29 14.5C29 6.49187 22.5081 0 14.5 0C6.49187 0 0 6.49187 0 14.5C0 22.5081 6.49187 29 14.5 29ZM14.5 25.5C20.5751 25.5 25.5 20.5751 25.5 14.5C25.5 8.42487 20.5751 3.5 14.5 3.5C8.42487 3.5 3.5 8.42487 3.5 14.5C3.5 20.5751 8.42487 25.5 14.5 25.5Z"
+                              fill="#00B533"/>
+                    </svg>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Moves second
+                </button>
                 <h2 className='l2'>Game mode</h2>
                 <button className='mode'>Easy</button>
                 <button className='mode m2 selected'>Hard</button>
@@ -124,10 +156,23 @@ class Game extends React.Component {
             });
 
         let status;
+        const X = <svg className='little-sign' width="28" height="28" viewBox="0 0 28 28" fill="none"
+                       xmlns="http://www.w3.org/2000/svg">
+            <rect y="2.47481" width="3.49991" height="35.9991" rx="1.74996" transform="rotate(-45 0 2.47481)"
+                  fill="#CF0000"/>
+            <rect x="25.4552" width="3.49991" height="35.9991" rx="1.74996" transform="rotate(45 25.4552 0)"
+                  fill="#CF0000"/>
+        </svg>;
+        const O = <svg className='little-sign' width="29" height="29" viewBox="0 0 29 29" fill="none"
+                       xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M14.5 29C22.5081 29 29 22.5081 29 14.5C29 6.49187 22.5081 0 14.5 0C6.49187 0 0 6.49187 0 14.5C0 22.5081 6.49187 29 14.5 29ZM14.5 25.5C20.5751 25.5 25.5 20.5751 25.5 14.5C25.5 8.42487 20.5751 3.5 14.5 3.5C8.42487 3.5 3.5 8.42487 3.5 14.5C3.5 20.5751 8.42487 25.5 14.5 25.5Z"
+                  fill="#00B533"/>
+        </svg>;
         status = winner ?
-            'The winner is ' + winner :
+            ['The winner is ', <div className='little-sign'>{winner === 'X' ? X : O}</div>] :
             this.state.stepNumber < 9 ?
-                'Current player: ' + (this.state.xIsNext ? 'X' : 'O') :
+                ['Current player:', <div className='little-sign'> {this.state.xIsNext ? X : O} </div>] :
                 'Draw';
 
         return (
