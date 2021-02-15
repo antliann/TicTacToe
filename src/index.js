@@ -282,7 +282,56 @@ function calculateWinner(squares) {
     return null;
 }
 
-function botMind(array) {
-    console.log(array)
-    return 5;
+function rand(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
+}
+
+function botMind(array, hard) {
+    // [
+    //     0 1 2
+    //     3 4 5
+    //     6 7 8
+    // ]
+    alert(array);
+    let count = 0;
+    for (let i = 0; i < 9; i++) {
+        if (!array[i]) count++;
+    }
+
+    let current = (count % 2 === 0) ? 'X' : 'O';
+    const lines = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+    ];
+
+    for (let i = 0; i < 9; i++) {
+        if (array[i] === null) {
+            array[i] = current;
+            if (calculateWinner(array) === current) {
+                return i;
+            }
+            array[i] = null;
+        }
+    }
+
+
+    if (hard) {
+
+    } else {
+
+    }
+
+    for (let i = 0; i < 9; i++) {
+        if (array[i] === null) {
+            return i;
+        }
+    }
 }
