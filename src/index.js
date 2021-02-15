@@ -43,7 +43,7 @@ class Board extends React.Component {
             for (let col = 0; col < 3; col++) {
                 thisRow.push(this.renderSquare(row * 3 + col));
             }
-            result.push(<div className="board-row"> {thisRow} </div>)
+            result.push(<div className="board-row"> {thisRow} </div>);
         }
         return result;
     }
@@ -138,7 +138,6 @@ class Game extends React.Component {
         const current = history[history.length - 1];
         const squares = current.squares.slice();
         if (calculateWinner(squares) || (squares[i])) {
-            alert(history.length);
             return;
         }
         squares[i] = this.state.xIsNext ? 'X' : 'O';
@@ -151,9 +150,14 @@ class Game extends React.Component {
         });
     }
 
+    botMove() {
+        let current = this.state.history;
+        return this.handleClick(botMind(current[current.length - 1].squares));
+    }
+
     userClick(i) {
         this.handleClick(i);
-        setTimeout(() => this.handleClick(botMove(this.squares)), 500);
+        setTimeout(() => this.botMove(), 500);
     }
 
     jumpTo(step) {
@@ -162,13 +166,40 @@ class Game extends React.Component {
             xIsNext: (step % 2) === 0,
         });
         if (!step) {
-            console.log(this.state.history);
-            this.setState( {
-                    history: [{
-                        squares: Array(9).fill(null),
-                    }],
-            }, () => {if (this.state.firstIsO) this.handleClick(4)});
+            this.setState({
+                history: [{
+                    squares: Array(9).fill(null),
+                }],
+            }, () => {
+                if (this.state.firstIsO) this.botMove()
+            });
         }
+    }
+
+    defineStatus(winner) {
+        const X = <svg className='little-sign' width="28" height="28" viewBox="0 0 28 28" fill="none"
+                       xmlns="http://www.w3.org/2000/svg">
+            <rect y="2.47481" width="3.49991" height="35.9991" rx="1.74996" transform="rotate(-45 0 2.47481)"
+                  fill="#CF0000"/>
+            <rect x="25.4552" width="3.49991" height="35.9991" rx="1.74996" transform="rotate(45 25.4552 0)"
+                  fill="#CF0000"/>
+        </svg>;
+        const O = <svg className='little-sign' width="29" height="29" viewBox="0 0 29 29" fill="none"
+                       xmlns="http://www.w3.org/2000/svg">
+            <path fillRule="evenodd" clipRule="evenodd"
+                  d="M14.5 29C22.5081 29 29 22.5081 29 14.5C29 6.49187 22.5081 0 14.5 0C6.49187 0 0 6.49187 0 14.5C0 22.5081 6.49187 29 14.5 29ZM14.5 25.5C20.5751 25.5 25.5 20.5751 25.5 14.5C25.5 8.42487 20.5751 3.5 14.5 3.5C8.42487 3.5 3.5 8.42487 3.5 14.5C3.5 20.5751 8.42487 25.5 14.5 25.5Z"
+                  fill="#00B533"/>
+        </svg>;
+        return winner ?
+            (winner === 'X' && this.state.firstIsO) ?
+                <p className='red'>You lose</p> :
+                <p className='green'>You won</p> :
+            this.state.stepNumber < 9 ?
+                [
+                    'Current player:',
+                    <div className='little-sign'> {this.state.xIsNext ? X : O} </div>
+                ] :
+                <span className='blue'>Draw</span>;
     }
 
     render() {
@@ -193,26 +224,6 @@ class Game extends React.Component {
                     );
             });
 
-        let status;
-        const X = <svg className='little-sign' width="28" height="28" viewBox="0 0 28 28" fill="none"
-                       xmlns="http://www.w3.org/2000/svg">
-            <rect y="2.47481" width="3.49991" height="35.9991" rx="1.74996" transform="rotate(-45 0 2.47481)"
-                  fill="#CF0000"/>
-            <rect x="25.4552" width="3.49991" height="35.9991" rx="1.74996" transform="rotate(45 25.4552 0)"
-                  fill="#CF0000"/>
-        </svg>;
-        const O = <svg className='little-sign' width="29" height="29" viewBox="0 0 29 29" fill="none"
-                       xmlns="http://www.w3.org/2000/svg">
-            <path fillRule="evenodd" clipRule="evenodd"
-                  d="M14.5 29C22.5081 29 29 22.5081 29 14.5C29 6.49187 22.5081 0 14.5 0C6.49187 0 0 6.49187 0 14.5C0 22.5081 6.49187 29 14.5 29ZM14.5 25.5C20.5751 25.5 25.5 20.5751 25.5 14.5C25.5 8.42487 20.5751 3.5 14.5 3.5C8.42487 3.5 3.5 8.42487 3.5 14.5C3.5 20.5751 8.42487 25.5 14.5 25.5Z"
-                  fill="#00B533"/>
-        </svg>;
-        status = winner ?
-            ['The winner is ', <div className='little-sign'>{winner === 'X' ? X : O}</div>] :
-            this.state.stepNumber < 9 ?
-                ['Current player:', <div className='little-sign'> {this.state.xIsNext ? X : O} </div>] :
-                'Draw';
-
         return (
             <div className="game">
                 <div className="game-board">
@@ -222,16 +233,21 @@ class Game extends React.Component {
                     />
                 </div>
                 <LeftBoard
-                    changeFirst={() => this.setState({firstIsO: !this.state.firstIsO})}
+                    changeFirst={() => {
+                        this.setState({firstIsO: !this.state.firstIsO});
+                        if (!this.state.stepNumber) this.jumpTo(0);
+                    }}
                     firstIsO={this.state.firstIsO}
-                    newGame={() => {this.jumpTo(0)}}
+                    newGame={() => {
+                        this.jumpTo(0)
+                    }}
                 />
                 <div className="right">
                     <h2>Go to the move:</h2>
                     {moves}
                 </div>
                 <div className="game-info">
-                    {status}
+                    {this.defineStatus(winner)}
                 </div>
             </div>
         );
@@ -265,6 +281,7 @@ function calculateWinner(squares) {
     return null;
 }
 
-function botMove() {
+function botMind(array) {
+    console.log(array)
     return 5;
 }
