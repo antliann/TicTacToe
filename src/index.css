@@ -1,3 +1,8 @@
+* {
+    outline: none;
+    user-select: none;
+}
+
 body {
     font-size: 14px;
     font-family: Manjari, sans-serif;
@@ -93,7 +98,7 @@ ol, ul {
     height: 37px;
     color: white;
     font-size: 30px;
-    margin: 609px auto 0 auto;
+    margin: 592px auto 0 auto;
 }
 
 .game-board {

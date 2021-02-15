@@ -11,7 +11,7 @@ function Square(props) {
         </svg>
     if (props.value === 'O') sign =
         <svg width="58" height="58" viewBox="0 0 58 58" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd"
+            <path fillRule="evenodd" clipRule="evenodd"
                   d="M29 58C45.0163 58 58 45.0163 58 29C58 12.9837 45.0163 0 29 0C12.9837 0 0 12.9837 0 29C0 45.0163 12.9837 58 29 58ZM29 51C41.1503 51 51 41.1503 51 29C51 16.8497 41.1503 7 29 7C16.8497 7 7 16.8497 7 29C7 41.1503 16.8497 51 29 51Z"
                   fill="#00B533"/>
         </svg>
@@ -51,30 +51,58 @@ class Board extends React.Component {
 
 class LeftBoard extends React.Component {
     render() {
+        let button1, button2;
+        if (!this.props.firstIsO) {
+            button1 = <button id='X-now' className='x-b selected'>
+                <svg className='little-signs' width="28" height="28" viewBox="0 0 28 28"
+                     fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect y="2.47481" width="3.49991" height="35.9991" rx="1.74996"
+                          transform="rotate(-45 0 2.47481)" fill="#CF0000"/>
+                    <rect x="25.4552" width="3.49991" height="35.9991" rx="1.74996" transform="rotate(45 25.4552 0)"
+                          fill="#CF0000"/>
+                </svg>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Moves first
+            </button>;
+            button2 = <button id='O' className='x-b' onClick={this.props.changeFirst}>
+                <svg className='little-signs' width="29" height="29" viewBox="0 0 29 29"
+                     fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fillRule="evenodd" clipRule="evenodd"
+                          d="M14.5 29C22.5081 29 29 22.5081 29 14.5C29 6.49187 22.5081 0 14.5 0C6.49187 0 0 6.49187 0 14.5C0 22.5081 6.49187 29 14.5 29ZM14.5 25.5C20.5751 25.5 25.5 20.5751 25.5 14.5C25.5 8.42487 20.5751 3.5 14.5 3.5C8.42487 3.5 3.5 8.42487 3.5 14.5C3.5 20.5751 8.42487 25.5 14.5 25.5Z"
+                          fill="#00B533"/>
+                </svg>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Moves second
+            </button>;
+        } else {
+            button1 = <button id='X' className='x-b' onClick={this.props.changeFirst}>
+                <svg className='little-signs' width="28" height="28" viewBox="0 0 28 28"
+                     fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect y="2.47481" width="3.49991" height="35.9991" rx="1.74996"
+                          transform="rotate(-45 0 2.47481)" fill="#CF0000"/>
+                    <rect x="25.4552" width="3.49991" height="35.9991" rx="1.74996" transform="rotate(45 25.4552 0)"
+                          fill="#CF0000"/>
+                </svg>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Moves first
+            </button>;
+            button2 = <button id='O-now' className='x-b selected'>
+                <svg className='little-signs' width="29" height="29" viewBox="0 0 29 29"
+                     fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fillRule="evenodd" clipRule="evenodd"
+                          d="M14.5 29C22.5081 29 29 22.5081 29 14.5C29 6.49187 22.5081 0 14.5 0C6.49187 0 0 6.49187 0 14.5C0 22.5081 6.49187 29 14.5 29ZM14.5 25.5C20.5751 25.5 25.5 20.5751 25.5 14.5C25.5 8.42487 20.5751 3.5 14.5 3.5C8.42487 3.5 3.5 8.42487 3.5 14.5C3.5 20.5751 8.42487 25.5 14.5 25.5Z"
+                          fill="#00B533"/>
+                </svg>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Moves second
+            </button>;
+        }
+
         return (
             <div className="left">
                 <h2 className='l1'>Play as:</h2>
-                <button className='x-b selected' onClick={this.props.newGame}>
-                    <svg className='little-signs' width="28" height="28" viewBox="0 0 28 28"
-                         fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect y="2.47481" width="3.49991" height="35.9991" rx="1.74996"
-                              transform="rotate(-45 0 2.47481)" fill="#CF0000"/>
-                        <rect x="25.4552" width="3.49991" height="35.9991" rx="1.74996" transform="rotate(45 25.4552 0)"
-                              fill="#CF0000"/>
-                    </svg>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    Moves first
-                </button>
-                <button className='x-b'>
-                    <svg className='little-signs' width="29" height="29" viewBox="0 0 29 29"
-                         fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                              d="M14.5 29C22.5081 29 29 22.5081 29 14.5C29 6.49187 22.5081 0 14.5 0C6.49187 0 0 6.49187 0 14.5C0 22.5081 6.49187 29 14.5 29ZM14.5 25.5C20.5751 25.5 25.5 20.5751 25.5 14.5C25.5 8.42487 20.5751 3.5 14.5 3.5C8.42487 3.5 3.5 8.42487 3.5 14.5C3.5 20.5751 8.42487 25.5 14.5 25.5Z"
-                              fill="#00B533"/>
-                    </svg>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    Moves second
-                </button>
+                {button1}
+                {button2}
                 <h2 className='l2'>Game mode</h2>
                 <button className='mode'>Easy</button>
                 <button className='mode m2 selected'>Hard</button>
@@ -101,6 +129,7 @@ class Game extends React.Component {
             }],
             stepNumber: 0,
             xIsNext: true,
+            firstIsO: false,
         };
     }
 
@@ -108,8 +137,10 @@ class Game extends React.Component {
         const history = this.state.history.slice(0, this.state.stepNumber + 1);
         const current = history[history.length - 1];
         const squares = current.squares.slice();
-        if (calculateWinner(squares) || squares[i])
+        if (calculateWinner(squares) || (squares[i])) {
+            alert(history.length);
             return;
+        }
         squares[i] = this.state.xIsNext ? 'X' : 'O';
         this.setState({
             history: history.concat([{
@@ -120,17 +151,24 @@ class Game extends React.Component {
         });
     }
 
+    userClick(i) {
+        this.handleClick(i);
+        setTimeout(() => this.handleClick(botMove(this.squares)), 500);
+    }
+
     jumpTo(step) {
         this.setState({
             stepNumber: step,
             xIsNext: (step % 2) === 0,
         });
-        if (!step) this.setState({
-            history: [{
-                squares: Array(9).fill(null),
-            }],
-        });
-
+        if (!step) {
+            console.log(this.state.history);
+            this.setState( {
+                    history: [{
+                        squares: Array(9).fill(null),
+                    }],
+            }, () => {if (this.state.firstIsO) this.handleClick(4)});
+        }
     }
 
     render() {
@@ -165,7 +203,7 @@ class Game extends React.Component {
         </svg>;
         const O = <svg className='little-sign' width="29" height="29" viewBox="0 0 29 29" fill="none"
                        xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd"
+            <path fillRule="evenodd" clipRule="evenodd"
                   d="M14.5 29C22.5081 29 29 22.5081 29 14.5C29 6.49187 22.5081 0 14.5 0C6.49187 0 0 6.49187 0 14.5C0 22.5081 6.49187 29 14.5 29ZM14.5 25.5C20.5751 25.5 25.5 20.5751 25.5 14.5C25.5 8.42487 20.5751 3.5 14.5 3.5C8.42487 3.5 3.5 8.42487 3.5 14.5C3.5 20.5751 8.42487 25.5 14.5 25.5Z"
                   fill="#00B533"/>
         </svg>;
@@ -180,11 +218,13 @@ class Game extends React.Component {
                 <div className="game-board">
                     <Board
                         squares={current.squares}
-                        onClick={(i) => this.handleClick(i)}
+                        onClick={(i) => this.userClick(i)}
                     />
                 </div>
                 <LeftBoard
-                    newGame={() => this.jumpTo(0)}
+                    changeFirst={() => this.setState({firstIsO: !this.state.firstIsO})}
+                    firstIsO={this.state.firstIsO}
+                    newGame={() => {this.jumpTo(0)}}
                 />
                 <div className="right">
                     <h2>Go to the move:</h2>
@@ -203,8 +243,7 @@ class Game extends React.Component {
 ReactDOM.render(
     <Game/>,
     document.getElementById('root')
-)
-;
+);
 
 function calculateWinner(squares) {
     const lines = [
@@ -224,4 +263,8 @@ function calculateWinner(squares) {
         }
     }
     return null;
+}
+
+function botMove() {
+    return 5;
 }
