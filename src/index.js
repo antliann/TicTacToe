@@ -52,7 +52,7 @@ class Board extends React.Component {
 class LeftBoard extends React.Component {
     render() {
         let button1, button2;
-        if (!this.props.firstIsO) {
+        if (!this.props["firstIsO"]) {
             button1 = <button id='X-now' className='x-b selected'>
                 <svg className='little-signs' width="28" height="28" viewBox="0 0 28 28"
                      fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -121,6 +121,7 @@ class LeftBoard extends React.Component {
 }
 
 class Game extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -171,7 +172,7 @@ class Game extends React.Component {
                     squares: Array(9).fill(null),
                 }],
             }, () => {
-                if (this.state.firstIsO) this.botMove()
+                if (this.state["firstIsO"]) this.botMove()
             });
         }
     }
@@ -191,7 +192,7 @@ class Game extends React.Component {
                   fill="#00B533"/>
         </svg>;
         return winner ?
-            (winner === 'X' && this.state.firstIsO) ?
+            ((winner === 'X') === this.state["firstIsO"]) ?
                 <p className='red'>You lose</p> :
                 <p className='green'>You won</p> :
             this.state.stepNumber < 9 ?
@@ -234,10 +235,10 @@ class Game extends React.Component {
                 </div>
                 <LeftBoard
                     changeFirst={() => {
-                        this.setState({firstIsO: !this.state.firstIsO});
+                        this.setState({firstIsO: !this.state["firstIsO"]});
                         if (!this.state.stepNumber) this.jumpTo(0);
                     }}
-                    firstIsO={this.state.firstIsO}
+                    firstIsO={this.state["firstIsO"]}
                     newGame={() => {
                         this.jumpTo(0)
                     }}
