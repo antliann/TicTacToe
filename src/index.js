@@ -150,7 +150,7 @@ class Game extends React.Component {
         const current = history[history.length - 1];
         const squares = current.squares.slice();
         if (calculateWinner(squares) || (squares[i])) {
-            return;
+            return false;
         }
         squares[i] = this.state.xIsNext ? 'X' : 'O';
         this.setState({
@@ -160,6 +160,7 @@ class Game extends React.Component {
             stepNumber: history.length,
             xIsNext: !this.state.xIsNext,
         });
+        return true;
     }
 
     botMove() {
@@ -167,8 +168,8 @@ class Game extends React.Component {
     }
 
     userClick(i) {
-        this.handleClick(i);
-        setTimeout(() => this.botMove(), 200);
+        if (this.handleClick(i))
+            setTimeout(() => this.botMove(), 200);
     }
 
     jumpTo(step) {
