@@ -292,19 +292,15 @@ function rand(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
 }
 
-function botMind(squares, hard) {
-    // [
-    //     0 1 2
-    //     3 4 5
-    //     6 7 8
-    // ]
+function botMind(squares, isHard) {
     let array = squares.slice();
     let count = 0;
     for (let i = 0; i < 9; i++) {
-        if (!array[i]) count++;
+        if (array[i]) count++;
     }
 
-    let current = (count % 2 === 0) ? 'X' : 'O';
+    let bot = (count % 2 === 0) ? 'X' : 'O';
+    let user = (count % 2 === 0) ? 'O' : 'X';
 
     const lines = [
         [0, 1, 2],
@@ -318,10 +314,11 @@ function botMind(squares, hard) {
     ];
 
     // First compulsive rule
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < array.length; i++) {
         if (array[i] === null) {
-            array[i] = current;
-            if (calculateWinner(array) === current) {
+            array[i] = bot;
+            if (calculateWinner(array) === bot) {
+                array[i] = null;
                 return i;
             }
             array[i] = null;
@@ -329,17 +326,22 @@ function botMind(squares, hard) {
     }
 
     // Second compulsive rule
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < array.length; i++) {
         if (array[i] === null) {
-            array[i] = current;
-            if (!calculateWinner(array) && calculateWinner(array) !== current) {
+            array[i] = user;
+            if (calculateWinner(array) === user) {
+                array[i] = null;
+                alert(array);
                 return i;
             }
             array[i] = null;
         }
     }
 
-    for (let i = 0; i < 9; i++) {
+    // 0 1 2
+    // 3 4 5
+    // 6 7 8
+    for (let i = 0; i < array.length; i++) {
         if (array[i] === null) {
             return i;
         }
