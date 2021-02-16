@@ -131,6 +131,7 @@ class Game extends React.Component {
             stepNumber: 0,
             xIsNext: true,
             firstIsO: false,
+            isHard: false,
         };
     }
 
@@ -153,7 +154,8 @@ class Game extends React.Component {
 
     botMove() {
         let current = this.state.history;
-        this.handleClick(botMind(current[current.length - 1].squares));
+        let squares = current[current.length - 1].squares;
+        this.handleClick(botMind(squares), this.state.isHard);
     }
 
     userClick(i) {
@@ -201,10 +203,6 @@ class Game extends React.Component {
                     <div className='little-sign'> {this.state.xIsNext ? X : O} </div>
                 ] :
                 <span className='blue'>Draw</span>;
-    }
-
-    forceUpdate(callback) {
-        super.forceUpdate(callback);
     }
 
     render() {
@@ -286,32 +284,14 @@ function calculateWinner(squares) {
     return null;
 }
 
-function rand(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
-}
-
 function botMind(squares, isHard) {
     let array = squares.slice();
     let count = 0;
     for (let i = 0; i < 9; i++) {
         if (array[i]) count++;
     }
-
     let bot = (count % 2 === 0) ? 'X' : 'O';
     let user = (count % 2 === 0) ? 'O' : 'X';
-
-    const lines = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6],
-    ];
 
     // First compulsive rule
     for (let i = 0; i < array.length; i++) {
@@ -331,19 +311,22 @@ function botMind(squares, isHard) {
             array[i] = user;
             if (calculateWinner(array) === user) {
                 array[i] = null;
-                alert(array);
                 return i;
             }
             array[i] = null;
         }
     }
 
+    if (isHard) {
+
+    }
     // 0 1 2
     // 3 4 5
     // 6 7 8
+
+    let nulls = [];
     for (let i = 0; i < array.length; i++) {
-        if (array[i] === null) {
-            return i;
-        }
+        if (!array[i]) nulls.push(i);
     }
+    return nulls[Math.floor(Math.random() * (nulls.length))];
 }
