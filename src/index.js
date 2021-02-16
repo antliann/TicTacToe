@@ -153,7 +153,7 @@ class Game extends React.Component {
 
     botMove() {
         let current = this.state.history;
-        return this.handleClick(botMind(current[current.length - 1].squares));
+        this.handleClick(botMind(current[current.length - 1].squares));
     }
 
     userClick(i) {
@@ -201,6 +201,10 @@ class Game extends React.Component {
                     <div className='little-sign'> {this.state.xIsNext ? X : O} </div>
                 ] :
                 <span className='blue'>Draw</span>;
+    }
+
+    forceUpdate(callback) {
+        super.forceUpdate(callback);
     }
 
     render() {
@@ -288,19 +292,20 @@ function rand(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
 }
 
-function botMind(array, hard) {
+function botMind(squares, hard) {
     // [
     //     0 1 2
     //     3 4 5
     //     6 7 8
     // ]
-    alert(array);
+    let array = squares.slice();
     let count = 0;
     for (let i = 0; i < 9; i++) {
         if (!array[i]) count++;
     }
 
     let current = (count % 2 === 0) ? 'X' : 'O';
+
     const lines = [
         [0, 1, 2],
         [3, 4, 5],
@@ -312,6 +317,7 @@ function botMind(array, hard) {
         [2, 4, 6],
     ];
 
+    // First compulsive rule
     for (let i = 0; i < 9; i++) {
         if (array[i] === null) {
             array[i] = current;
@@ -322,11 +328,15 @@ function botMind(array, hard) {
         }
     }
 
-
-    if (hard) {
-
-    } else {
-
+    // Second compulsive rule
+    for (let i = 0; i < 9; i++) {
+        if (array[i] === null) {
+            array[i] = current;
+            if (!calculateWinner(array) && calculateWinner(array) !== current) {
+                return i;
+            }
+            array[i] = null;
+        }
     }
 
     for (let i = 0; i < 9; i++) {
