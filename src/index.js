@@ -153,14 +153,12 @@ class Game extends React.Component {
     }
 
     botMove() {
-        let current = this.state.history;
-        let squares = current[current.length - 1].squares;
-        this.handleClick(botMind(squares), this.state.isHard);
+        this.handleClick(botMind(this.state.history), this.state.isHard);
     }
 
     userClick(i) {
         this.handleClick(i);
-        setTimeout(() => this.botMove(), 500);
+        setTimeout(() => this.botMove(), 200);
     }
 
     jumpTo(step) {
@@ -212,19 +210,24 @@ class Game extends React.Component {
 
         const moves = history.slice(1).map(
             (step, move) => {
-                const desc = 'Move #' + ++move;
-                if (this.state.stepNumber !== move)
-                    return (
-                        <button key={move} className='move-button' onClick={() => this.jumpTo(move)}>
-                            {desc}
-                        </button>
-                    )
-                else
-                    return (
-                        <button key={move} className='move-button selected'>
-                            {desc}
-                        </button>
-                    );
+                if ((move % 2 === 0) !== this.state['firstIsO']) {
+                    let userMove;
+                    if (this.state['firstIsO']) userMove = (move + 1) / 2;
+                    else userMove = (move + 2) / 2;
+                    const desc = 'Move #' + userMove;
+                    if (this.state.stepNumber !== move + 1)
+                        return (
+                            <button key={move} className='move-button' onClick={() => this.jumpTo(move + 1)}>
+                                {desc}
+                            </button>
+                        )
+                    else
+                        return (
+                            <button key={move} className='move-button selected'>
+                                {desc}
+                            </button>
+                        );
+                }
             });
 
         return (
@@ -284,49 +287,89 @@ function calculateWinner(squares) {
     return null;
 }
 
-function botMind(squares, isHard) {
-    let array = squares.slice();
+function lastMove(history) {
+    for (let i = 0; i < 9; i++) {
+        if (history[history.length - 1].squares[i] !== history[history.length - 2].squares[i]) {
+            return i;
+        }
+    }
+}
+
+function botMind(history, isHard) {
+    let squares = history[history.length - 1].squares.slice();
     let count = 0;
     for (let i = 0; i < 9; i++) {
-        if (array[i]) count++;
+        if (squares[i]) count++;
     }
     let bot = (count % 2 === 0) ? 'X' : 'O';
     let user = (count % 2 === 0) ? 'O' : 'X';
 
     // First compulsive rule
-    for (let i = 0; i < array.length; i++) {
-        if (array[i] === null) {
-            array[i] = bot;
-            if (calculateWinner(array) === bot) {
-                array[i] = null;
+    for (let i = 0; i < squares.length; i++) {
+        if (squares[i] === null) {
+            squares[i] = bot;
+            if (calculateWinner(squares) === bot) {
+                squares[i] = null;
                 return i;
             }
-            array[i] = null;
+            squares[i] = null;
         }
     }
 
     // Second compulsive rule
-    for (let i = 0; i < array.length; i++) {
-        if (array[i] === null) {
-            array[i] = user;
-            if (calculateWinner(array) === user) {
-                array[i] = null;
+    for (let i = 0; i < squares.length; i++) {
+        if (squares[i] === null) {
+            squares[i] = user;
+            if (calculateWinner(squares) === user) {
+                squares[i] = null;
                 return i;
             }
-            array[i] = null;
+            squares[i] = null;
         }
     }
 
+    isHard = true;
+
+    let propers = [];
     if (isHard) {
+        if (squares[4] == null) return 4;
+        let proper = Math.abs(lastMove(history) - 8);
+        console.log(proper);
+        if (proper === 4)
+            propers = [0, 2, 6, 8];
+        else if (proper === 3)
+            propers = [0, 6];
+        else if (proper === 5)
+            propers = [2, 8];
+        else if (proper % 2 !== 0)
+            propers = [proper - 1, proper + 1];
+        else propers = [proper];
+        
+        let counter = 0;
+        for (let i = 0; i < propers.length + counter; i++) {
+            if (squares[propers[i-counter]]) {
+                propers.splice(i - counter, 1);
+                counter++;
+            }
+        }
 
-    }
-    // 0 1 2
-    // 3 4 5
-    // 6 7 8
+        if (propers.length === 0) {
+            propers = [0, 2, 6, 8];
+            counter = 0;
+            for (let i = 0; i < propers.length + counter; i++) {
+                if (squares[propers[i-counter]]) {
+                    propers.splice(i - counter, 1);
+                    counter++;
+                }
+            }
+        }
 
-    let nulls = [];
-    for (let i = 0; i < array.length; i++) {
-        if (!array[i]) nulls.push(i);
+        if (propers.length === 0) {
+            for (let i = 0; i < squares.length; i++) {
+                if (!squares[i]) propers.push(i);
+            }
+        }
+        
+        return propers[Math.floor(Math.random() * (propers.length))];
     }
-    return nulls[Math.floor(Math.random() * (nulls.length))];
 }
