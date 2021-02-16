@@ -71,7 +71,7 @@ class LeftBoard extends React.Component {
                           d="M14.5 29C22.5081 29 29 22.5081 29 14.5C29 6.49187 22.5081 0 14.5 0C6.49187 0 0 6.49187 0 14.5C0 22.5081 6.49187 29 14.5 29ZM14.5 25.5C20.5751 25.5 25.5 20.5751 25.5 14.5C25.5 8.42487 20.5751 3.5 14.5 3.5C8.42487 3.5 3.5 8.42487 3.5 14.5C3.5 20.5751 8.42487 25.5 14.5 25.5Z"
                           fill="#00B533"/>
                 </svg>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 Moves second
             </button>;
         } else {
@@ -93,7 +93,7 @@ class LeftBoard extends React.Component {
                           d="M14.5 29C22.5081 29 29 22.5081 29 14.5C29 6.49187 22.5081 0 14.5 0C6.49187 0 0 6.49187 0 14.5C0 22.5081 6.49187 29 14.5 29ZM14.5 25.5C20.5751 25.5 25.5 20.5751 25.5 14.5C25.5 8.42487 20.5751 3.5 14.5 3.5C8.42487 3.5 3.5 8.42487 3.5 14.5C3.5 20.5751 8.42487 25.5 14.5 25.5Z"
                           fill="#00B533"/>
                 </svg>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 Moves second
             </button>;
         }
