@@ -208,7 +208,7 @@ ol, ul {
     border-radius: 15px;
     font-size: 18px;
     line-height: 21px;
-    text-align: left;
+    text-align: center;
     padding-top: 10px;
 }
 
@@ -232,4 +232,12 @@ ol, ul {
     height: 29px;
     vertical-align: middle;
     margin-left: 4px;
+}
+
+.x {
+    margin-left: -5px;
+}
+
+.o {
+    margin-top: -9px;
 }

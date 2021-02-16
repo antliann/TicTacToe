@@ -54,18 +54,18 @@ class LeftBoard extends React.Component {
         let button1, button2;
         if (this.props["firstIsO"]) {
             button1 = <button id='X' className='x-b' onClick={this.props.changeFirst}>
-                <svg className='little-signs' width="28" height="28" viewBox="0 0 28 28"
+                <svg className='little-signs x' width="28" height="28" viewBox="0 0 28 28"
                      fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect y="2.47481" width="3.49991" height="35.9991" rx="1.74996"
                           transform="rotate(-45 0 2.47481)" fill="#CF0000"/>
                     <rect x="25.4552" width="3.49991" height="35.9991" rx="1.74996" transform="rotate(45 25.4552 0)"
                           fill="#CF0000"/>
                 </svg>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 Moves first
             </button>;
             button2 = <button id='O-now' className='x-b selected'>
-                <svg className='little-signs' width="29" height="29" viewBox="0 0 29 29"
+                <svg className='little-signs o' width="29" height="29" viewBox="0 0 29 29"
                      fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fillRule="evenodd" clipRule="evenodd"
                           d="M14.5 29C22.5081 29 29 22.5081 29 14.5C29 6.49187 22.5081 0 14.5 0C6.49187 0 0 6.49187 0 14.5C0 22.5081 6.49187 29 14.5 29ZM14.5 25.5C20.5751 25.5 25.5 20.5751 25.5 14.5C25.5 8.42487 20.5751 3.5 14.5 3.5C8.42487 3.5 3.5 8.42487 3.5 14.5C3.5 20.5751 8.42487 25.5 14.5 25.5Z"
@@ -76,18 +76,18 @@ class LeftBoard extends React.Component {
             </button>;
         } else {
             button1 = <button id='X-now' className='x-b selected'>
-                <svg className='little-signs' width="28" height="28" viewBox="0 0 28 28"
+                <svg className='little-signs x' width="28" height="28" viewBox="0 0 28 28"
                      fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect y="2.47481" width="3.49991" height="35.9991" rx="1.74996"
                           transform="rotate(-45 0 2.47481)" fill="#CF0000"/>
                     <rect x="25.4552" width="3.49991" height="35.9991" rx="1.74996" transform="rotate(45 25.4552 0)"
                           fill="#CF0000"/>
                 </svg>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 Moves first
             </button>;
             button2 = <button id='O' className='x-b' onClick={this.props.changeFirst}>
-                <svg className='little-signs' width="29" height="29" viewBox="0 0 29 29"
+                <svg className='little-signs o' width="29" height="29" viewBox="0 0 29 29"
                      fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path fillRule="evenodd" clipRule="evenodd"
                           d="M14.5 29C22.5081 29 29 22.5081 29 14.5C29 6.49187 22.5081 0 14.5 0C6.49187 0 0 6.49187 0 14.5C0 22.5081 6.49187 29 14.5 29ZM14.5 25.5C20.5751 25.5 25.5 20.5751 25.5 14.5C25.5 8.42487 20.5751 3.5 14.5 3.5C8.42487 3.5 3.5 8.42487 3.5 14.5C3.5 20.5751 8.42487 25.5 14.5 25.5Z"
