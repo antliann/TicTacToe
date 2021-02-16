@@ -215,13 +215,9 @@ ol, ul {
 .mode {
     width: 84px;
     height: 49px;
-    margin-left: 23px;
+    margin-left: 21px;
     border-radius: 15px;
     padding-top: 10px;
-}
-
-.m2 {
-    margin-left: 19px;
 }
 
 .little-signs {
