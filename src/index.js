@@ -1,18 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import './animation.css'
 import {calculateWinner, botMind} from './algorithm';
 
 function Square(props) {
     let sign = null;
-    const X = <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect y="4.94975" width="7" height="72" rx="3.5" transform="rotate(-45 0 4.94975)" fill="#CF0000"/>
-        <rect x="50.9117" width="7" height="72" rx="3.5" transform="rotate(45 50.9117 0)" fill="#CF0000"/>
+    const X = <svg className="x-draw" width="56" height="56" viewBox="0 0 56 56" fill="none"
+                   xmlns="http://www.w3.org/2000/svg">
+        <path d="M 5 5 L 51 51" fill="none" strokeWidth="7" strokeLinecap="round"
+              strokeDasharray="100" strokeDashoffset="100"/>
+        <path d="M 51 5 L 5 51" fill="none" strokeWidth="7" strokeLinecap="round"
+              strokeDasharray="100" strokeDashoffset="100"/>
     </svg>;
-    const O = <svg width="58" height="58" viewBox="0 0 58 58" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path fillRule="evenodd" clipRule="evenodd"
-              d="M29 58C45.0163 58 58 45.0163 58 29C58 12.9837 45.0163 0 29 0C12.9837 0 0 12.9837 0 29C0 45.0163 12.9837 58 29 58ZM29 51C41.1503 51 51 41.1503 51 29C51 16.8497 41.1503 7 29 7C16.8497 7 7 16.8497 7 29C7 41.1503 16.8497 51 29 51Z"
-              fill="#00B533"/>
+
+    const O = <svg className="o-draw" width="58" height="58" viewBox="0 0 58 58" fill="none"
+                   xmlns="http://www.w3.org/2000/svg">
+        <circle cx="29" cy="29" r="25" fill="none" strokeWidth="7" strokeDasharray="200"
+                strokeDashoffset="200" strokeLinecap="round"/>
     </svg>;
 
     if (props.value === 'X') sign = X;
@@ -172,7 +177,7 @@ class Game extends React.Component {
 
     userClick(i) {
         if (this.handleClick(i))
-            setTimeout(() => this.botMove(), 200);
+            setTimeout(() => this.botMove(), 400);
     }
 
     jumpTo(step) {
