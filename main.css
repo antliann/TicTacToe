@@ -1,0 +1,38 @@
+body {
+    font-size: 14px;
+    font-family: Manjari, sans-serif;
+    margin: 20px;
+    background-color: #000B32;
+}
+
+h1 {
+    position: absolute;
+    width: 357px;
+    height: 70px;
+    left: calc(50% - 357px / 2);
+    top: 40px;
+    font-size: 60px;
+    line-height: 70px;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+.cells {
+    position: absolute;
+    width: 270px;
+    height: 270px;
+    left: calc(50% - 270px / 2);
+    top: 220px;
+}
+
+.by {
+    position: absolute;
+    width: 106px;
+    height: 21px;
+    right: 14px;
+    bottom: 11px;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: right;
+    color: #4B74FF;
+}
